@@ -1,0 +1,84 @@
+def resolutions = ['32', '64', '128', '256', '512']
+
+task convertVectors << {
+    resolutions.each() { res ->
+        exec {
+            executable './convert_vectors.sh'
+            args res
+        }
+    }
+}
+
+task copyAnimations << {
+    resolutions.each() { res ->
+        copy {
+            from 'svg'
+            into 'out/'+res
+            include '**/*.mcmeta'
+        }
+    }
+}
+
+task copyBitmaps << {
+    resolutions.each() { res ->
+        copy {
+            from 'png/'+res
+            from 'png/any'
+            into 'out/'+res
+            include '**/*.png'
+        }
+    }
+}
+
+task compress32Zip(type: Zip) {
+    dependsOn 'convertVectors'
+    dependsOn 'copyAnimations'
+    dependsOn 'copyBitmaps'
+    destinationDir file('zip/')
+    from 'out/32'
+    baseName '32x'
+}
+
+task compress64Zip(type: Zip) {
+    dependsOn 'convertVectors'
+    dependsOn 'copyAnimations'
+    dependsOn 'copyBitmaps'
+    destinationDir file('zip/')
+    from 'out/64'
+    baseName '64x'
+}
+
+task compress128Zip(type: Zip) {
+    dependsOn 'convertVectors'
+    dependsOn 'copyAnimations'
+    dependsOn 'copyBitmaps'
+    destinationDir file('zip/')
+    from 'out/128'
+    baseName '128x'
+}
+
+task compress256Zip(type: Zip) {
+    dependsOn 'convertVectors'
+    dependsOn 'copyAnimations'
+    dependsOn 'copyBitmaps'
+    destinationDir file('zip/')
+    from 'out/256'
+    baseName '256x'
+}
+
+task compress512Zip(type: Zip) {
+    dependsOn 'convertVectors'
+    dependsOn 'copyAnimations'
+    dependsOn 'copyBitmaps'
+    destinationDir file('zip/')
+    from 'out/512'
+    baseName '512x'
+}
+
+task build << {
+    dependsOn 'compress32Zip'
+    dependsOn 'compress64Zip'
+    dependsOn 'compress128Zip'
+    dependsOn 'compress256Zip'
+    dependsOn 'compress512Zip'
+}
