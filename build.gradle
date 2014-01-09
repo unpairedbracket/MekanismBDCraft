@@ -75,7 +75,7 @@ task compress512Zip(type: Zip) {
     baseName '512x'
 }
 
-task build << {
+task build {
     dependsOn 'compress32Zip'
     dependsOn 'compress64Zip'
     dependsOn 'compress128Zip'
