@@ -5,8 +5,6 @@ else
     res=$1
 fi
 
-export LD_LIBRARY_PATH=/usr/local/lib
-
 zoom=`echo "scale=4; $res/512" | bc`
 for vectorFile in `find ./svg -mindepth 3 -name *.svg`
 do
