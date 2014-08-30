@@ -18,5 +18,8 @@ do
     bitmapFile=`echo $vectorFile | sed -e "s,/svg/\(.*\)\.svg,/out/${res}/\1\.png,"`
     mkdir -p `dirname $bitmapFile`
     rsvg-convert -o $bitmapFile --zoom=$fileZoom $vectorFile
-    convert $bitmapFile -channel Alpha -threshold 50% $bitmapFile
+    if echo $bitmapFile | grep -q items
+    then
+        convert $bitmapFile -channel Alpha -threshold 50% $bitmapFile
+    fi
 done
